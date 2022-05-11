@@ -5,7 +5,7 @@ public class Move extends ClickableImage {
     super("Highlight.png", yPos * 50, xPos * 50, 50, 50);
   }
   public void onClick() {
-    ;
+    ChessBoard.clearPossibleMoves();
     //Set new location for piece, process taking if applicable, move taken pieces to takenPieces array, progress turn;
   }
 }
