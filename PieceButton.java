@@ -1,6 +1,5 @@
 import java.io.FileNotFoundException;
 import org.code.playground.*;
-
 public class PieceButton extends ClickableImage {
   int row;
   int col;
@@ -9,10 +8,11 @@ public class PieceButton extends ClickableImage {
     this.row = row;
     this.col = col;
   } 
-
   public void onClick() {
-    System.out.println("clicked!");
-    ChessBoard.showPossibleMoves(row, col);				// displays the game components on the board
+    try {
+      ChessBoard.showPossibleMoves(ChessBoard.getPieceAt(row, col));
+    } catch (Exception e) {
+      System.out.println(e);
+    }
   }
-  // public onClick () {;}
 }
