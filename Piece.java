@@ -80,10 +80,10 @@ public class Piece {
     return ChessBoard.free(r, c, this.color);
   }
   private boolean pawnCanMove (int row, int col) {
-    int add = 1;
-    if (this.color.equals("White")) add = -1;
+    int add = -1;
+    if (this.color.equals("White")) add = 1;
     
-    if (this.row + add == row && ChessBoard.empty(row, col))
+    if (this.row + add == row && ChessBoard.empty(row, col) && col == this.col)
         return true;
 
     else if (this.row + add == row && (this.col+1 == col || this.col-1 == col)) {
