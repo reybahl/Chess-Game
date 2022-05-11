@@ -27,7 +27,7 @@ public class ChessBoard {
     return null;
   }
   public static boolean empty (int row, int col) {
-    return (squares[row][col] == null);
+    return getPieceAt(row, col) == null;
   }
   public static boolean free (int row, int col, String color) {
     return empty(row, col) || !getPieceAt(row, col).getColor().equals(color);
@@ -42,7 +42,7 @@ public class ChessBoard {
     }
   }
   public static void showPlayableBoard () throws FileNotFoundException {
-    myChessBoard.setBackgroundImage("Chessboard.png");
+    myChessBoard.setBackgroundImage("chess-board.png");
     for (Piece[] arr : pieces) {
       for (Piece piece : arr) {
         if (piece != null) {
