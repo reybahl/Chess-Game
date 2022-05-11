@@ -68,7 +68,7 @@ public class ChessBoard {
   }
   
   public static void showPlayableBoard () throws FileNotFoundException {
-    myChessBoard.setBackgroundImage("chess-board.png");
+    myChessBoard.setBackgroundImage("Chessboard.png");
     for (Piece[] arr : pieces) {
       for (Piece piece : arr) {
         if (piece != null) {
