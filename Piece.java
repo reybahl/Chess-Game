@@ -1,17 +1,30 @@
+import java.io.FileNotFoundException;
+
+
 public class Piece {
   private String type; // type of piece
-  private boolean isOnBoard;
+  private boolean isOnChessBoard;
   private String color;
   private int row;
   private int col;
-  public Piece (String type, String color, int row, int col) {
+  private PieceButton button;
+  public Piece (String type, String color, int row, int col) throws FileNotFoundException {
     this.type = type;
     this.color = color;
-    isOnBoard = true;
+    this.isOnChessBoard = true;
+    String filename = color + "-" +  type + ".png"; 
+    this.button = new PieceButton(filename, col*47 + 10, row*47 + 10, 50, 50, row, col);
   }
   
   public String getColor() {
     return this.color;
+  }
+
+  public String getType () {
+    return this.type;
+  }
+  public PieceButton getButton () {
+    return this.button;
   }
   
   private boolean knightCanMove (int row, int col) {
@@ -21,7 +34,7 @@ public class Piece {
     else if (Math.abs(this.col - col) == 2 && Math.abs(this.row - row) == 1)
         canMoveLogic = true;
     
-    return Board.free(row, col, this.color) && canMoveLogic;
+    return ChessBoard.free(row, col, this.color) && canMoveLogic;
   }
 
   private boolean bishopCanMove (int row, int col) {
@@ -32,7 +45,7 @@ public class Piece {
       int currentRow = this.row;
       int currentCol = this.col;
       while (currentRow != row && currentCol != col) {
-        if (!Board.empty(currentRow, currentCol))
+        if (!ChessBoard.empty(currentRow, currentCol))
             return false;
         if (currentRow < row) currentRow++;
         else currentRow--;
@@ -41,7 +54,7 @@ public class Piece {
         else currentCol--;
       }
       
-      return Board.free(row, col, this.color);
+      return ChessBoard.free(row, col, this.color);
     }
   }
 
@@ -52,7 +65,7 @@ public class Piece {
     int currentRow = this.row;
     int currentCol = this.col;
     while (currentRow != row || currentCol != col) {
-      if (!Board.empty(currentRow, currentCol))
+      if (!ChessBoard.empty(currentRow, currentCol))
             return false;
       
       if (currentRow < row) currentRow++;
@@ -60,25 +73,26 @@ public class Piece {
       else if (currentCol < col) currentCol++;
       else if (currentCol > col) currentCol--;
     }
-    return Board.free(row, col, this.color);
+    return ChessBoard.free(row, col, this.color);
   }
 
   private boolean pawnCanMove (int row, int col) {
     // move forward
     int add = 1;
-    if (this.color.equals("white")) add = -1;
+    if (this.color.equals("White")) add = -1;
     
-    if (this.row + add == row && Board.empty(row, col))
+    if (this.row + add == row && ChessBoard.empty(row, col))
         return true;
 
     else if (this.row + add == row && (this.col+1 == col || this.col-1 == col)) {
-        return !Board.empty(row, col) && !(Board.getPiece(row, col).getColor().equals(this.color));
+        return !ChessBoard.empty(row, col) && !(ChessBoard.getPiece(row, col).getColor().equals(this.color));
     }
+    return false;
   }
 
   private boolean kingCanMove (int row, int col) {
     if (Math.abs(this.row - row) <= 1 && Math.abs(this.col - col) <= 1) {
-      return Board.free(row, col, this.color);
+      return ChessBoard.free(row, col, this.color);
     }
     return false;
   }
@@ -91,18 +105,19 @@ public class Piece {
   }
 
   public boolean canMove (int row, int col) {
-    if (this.type.equals("king")) {
+    if (this.type.equals("King")) {
       return kingCanMove(row, col);
-    } else if (this.type.equals("queen")) {
+    } else if (this.type.equals("Queen")) {
       return queenCanMove(row, col);
-    } else if (this.type.equals("bishop")) {
+    } else if (this.type.equals("Bishop")) {
       return bishopCanMove(row, col);
-    } else if (this.type.equals("rook")) {
+    } else if (this.type.equals("Rook")) {
       return rookCanMove(row, col);
-    } else if (this.type.equals("knight")) {
+    } else if (this.type.equals("Knight")) {
       return knightCanMove(row, col);
-    } else if (this.type.equals("pawn")) {
+    } else if (this.type.equals("Pawn")) {
       return pawnCanMove(row, col);
     }
+    return false;
   }
 }
