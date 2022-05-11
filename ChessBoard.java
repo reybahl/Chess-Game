@@ -5,6 +5,8 @@ public class ChessBoard {
   private static Piece[][] pieces = new Piece[2][16];
   private static Piece[][] takenPieces = new Piece[2][15];
   public static Board myChessBoard = Playground.board;
+  private static Move[][] moves = new Move[8][8];
+  
   public ChessBoard () throws FileNotFoundException, PlaygroundException {
     String[] pieceTypes = {"Rook", "Knight", "Bishop", "Queen", "King", "Bishop", "Knight", "Rook"};
     for (int i=0; i < 8; i++) {
@@ -32,15 +34,39 @@ public class ChessBoard {
   public static boolean free (int row, int col, String color) {
     return empty(row, col) || !getPieceAt(row, col).getColor().equals(color);
   }
-  public static void showPossibleMoves (Piece piece) throws FileNotFoundException {
+
+  public static void getPossibleMoves(Piece piece) throws FileNotFoundException {
     for (int r=0; r<8; r++) {
       for (int c=0; c<8; c++) {
         if (piece.canMove(r, c)) {
-          myChessBoard.addClickableImage(new Move(r, c));
+          moves[r][c] = new Move(r, c);
         }
       }
     }
   }
+  public static void showPossibleMoves (Piece piece) throws FileNotFoundException {
+    clearPossibleMoves();
+    getPossibleMoves(piece);
+    for (int r=0; r<8; r++) {
+      for (int c=0; c<8; c++) {
+        if (moves[r][c] != null) {
+          myChessBoard.addClickableImage(moves[r][c]);
+        }
+      }
+    }
+  }
+
+  public static void clearPossibleMoves () {
+    for (int r=0; r<8; r++) {
+      for (int c=0; c<8; c++) {
+        if (moves[r][c] != null) {
+          myChessBoard.removeClickableImage(moves[r][c]);
+          moves[r][c] = null;
+        }
+      }
+    }
+  }
+  
   public static void showPlayableBoard () throws FileNotFoundException {
     myChessBoard.setBackgroundImage("chess-board.png");
     for (Piece[] arr : pieces) {
