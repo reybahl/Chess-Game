@@ -59,7 +59,7 @@ public class Piece {
         else currentRow--;
         if (currentCol < col) currentCol++;
         else currentCol--;
-        if (!ChessBoard.empty(currentRow, currentCol)) {
+        if ((currentRow != row && currentCol != col) && !ChessBoard.empty(currentRow, currentCol)) {
           return false;
         }
       }
@@ -77,7 +77,7 @@ public class Piece {
       else if (currentRow > r) currentRow--;
       else if (currentCol < c) currentCol++;
       else if (currentCol > c) currentCol--;
-      if (!ChessBoard.empty(currentRow, currentCol)) {
+      if ((currentRow != r || currentCol != c ) && !ChessBoard.empty(currentRow, currentCol)) {
         return false;
       }
     }
