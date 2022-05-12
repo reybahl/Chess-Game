@@ -7,10 +7,18 @@ public class PieceButton extends ClickableImage {
     super(filename, xPos, yPos, width, height);
     this.row = row;
     this.col = col;
-  } 
+  }
+  public void setLocation (int xPos, int yPos, int row, int col) {
+    super.setY(yPos);
+    super.setX(xPos);
+    this.row = row;
+    this.col = col;
+  }
   public void onClick() {
     try {
-      ChessBoard.showPossibleMoves(ChessBoard.getPieceAt(row, col));
+      Piece current = ChessBoard.getPieceAt(row, col);
+      ChessBoard.showPossibleMoves(current);
+      ChessBoard.setClicked(current);
     } catch (Exception e) {
       System.out.println(e);
     }
