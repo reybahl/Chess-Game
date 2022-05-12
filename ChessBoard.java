@@ -36,7 +36,6 @@ public class ChessBoard {
   }
 
   public static void movePiece (int row, int col) throws FileNotFoundException {
-    System.out.println("here");
     clickedPiece.move(row, col);
     showPlayableBoard();
   }
