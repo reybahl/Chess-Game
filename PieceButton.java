@@ -17,8 +17,12 @@ public class PieceButton extends ClickableImage {
   public void onClick() {
     try {
       Piece current = ChessBoard.getPieceAt(row, col);
-      ChessBoard.showPossibleMoves(current);
-      ChessBoard.setClicked(current);
+      
+      if (current.getColor().equals(GameControl.getTurn())) {
+        ChessBoard.showPossibleMoves(current);
+        ChessBoard.setClicked(current);
+        GameControl.switchTurn();
+      }
     } catch (Exception e) {
       System.out.println(e);
     }
