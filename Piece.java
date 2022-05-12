@@ -55,13 +55,13 @@ public class Piece {
       int currentRow = this.row;
       int currentCol = this.col;
       while (currentRow != row && currentCol != col) {
-        if (!ChessBoard.empty(currentRow, currentCol)) {
-          return false;
-        }
         if (currentRow < row) currentRow++;
         else currentRow--;
         if (currentCol < col) currentCol++;
         else currentCol--;
+        if (!ChessBoard.empty(currentRow, currentCol)) {
+          return false;
+        }
       }
       return ChessBoard.free(row, col, this.color);
     }
