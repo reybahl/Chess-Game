@@ -89,6 +89,11 @@ public class ChessBoard {
       }
     }
   }
+  public static void removeImg (Piece piece) {
+    System.out.println("removing" + piece);
+    myChessBoard.removeClickableImage(piece.getButton());
+  }
+  
   public static void showPlayableBoard () throws FileNotFoundException {
     myChessBoard.setBackgroundImage("Chessboard.png");
     for (Piece[] arr : pieces) {
