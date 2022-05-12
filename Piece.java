@@ -6,6 +6,8 @@ public class Piece {
   private int row;
   private int col;
   private PieceButton button;
+  private int xPos; // in pixel coordinates
+  private int yPos;
   public Piece (String type, String color, int r, int c) throws FileNotFoundException {
     this.row = r;
     this.col = c;
@@ -13,6 +15,8 @@ public class Piece {
     this.color = color;
     this.isOnChessBoard = true;
     String filename = color + "-" +  type + ".png";
+    this.xPos = c*50;
+    this.yPos = r*50;
     this.button = new PieceButton(filename, c*50, r*50, 50, 50, r, c);
   }
   public int getRow() {
@@ -117,5 +121,15 @@ public class Piece {
     } else {
       return pawnCanMove(row, col);
     }
+  }
+
+  public void move(int row, int col) throws FileNotFoundException {
+    this.xPos = col*50;
+    this.yPos = row*50;
+    
+    this.row = row;
+    this.col = col;
+    this.button.setLocation(this.xPos, this.yPos, this.row, this.col);
+    ChessBoard.showPlayableBoard();
   }
 }
