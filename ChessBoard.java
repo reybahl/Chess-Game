@@ -6,6 +6,8 @@ public class ChessBoard {
   private static Piece[][] takenPieces = new Piece[2][15];
   public static Board myChessBoard = Playground.board;
   private static Move[][] moves = new Move[8][8];
+
+  private static Piece clickedPiece;
   
   public ChessBoard () throws FileNotFoundException, PlaygroundException {
     String[] pieceTypes = {"Rook", "Knight", "Bishop", "Queen", "King", "Bishop", "Knight", "Rook"};
@@ -28,6 +30,28 @@ public class ChessBoard {
     }
     return null;
   }
+
+  public static void setClicked(Piece piece) {
+    clickedPiece = piece;
+  }
+
+  public static void movePiece (int row, int col) throws FileNotFoundException {
+    System.out.println("here");
+    clickedPiece.move(row, col);
+    showPlayableBoard();
+  }
+  
+  public static void setPieceAt(int row, int col, Piece piece) {
+    for (int i = 0; i < 2; i++) {
+      for (int j = 0; j < 16; j++) {        
+        if (pieces[i][j].getRow() == row && pieces[i][j].getCol() == col) {
+          pieces[i][j] = piece;
+        }
+      }
+    }
+  }
+  
+  
   public static boolean empty (int row, int col) {
     return getPieceAt(row, col) == null;
   }
@@ -66,7 +90,6 @@ public class ChessBoard {
       }
     }
   }
-  
   public static void showPlayableBoard () throws FileNotFoundException {
     myChessBoard.setBackgroundImage("Chessboard.png");
     for (Piece[] arr : pieces) {
