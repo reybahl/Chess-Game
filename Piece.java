@@ -8,6 +8,8 @@ public class Piece {
   private PieceButton button;
   private int xPos; // in pixel coordinates
   private int yPos;
+  private boolean taken;
+  
   public Piece (String type, String color, int r, int c) throws FileNotFoundException {
     this.row = r;
     this.col = c;
@@ -18,6 +20,7 @@ public class Piece {
     this.xPos = c*50;
     this.yPos = r*50;
     this.button = new PieceButton(filename, c*50, r*50, 50, 50, r, c);
+    this.taken = false;
   }
   public int getRow() {
     return this.row;
@@ -37,6 +40,19 @@ public class Piece {
   public Piece getPiece() {
     return this;
   }
+  public boolean isAlive () {
+    return !this.taken;
+  }
+  public void kill() {
+    this.taken = true;
+    try {
+      System.out.println("removing" + this);
+      ChessBoard.removeImg(this);
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+  }
+  
   private boolean knightCanMove (int row, int col) {
     boolean canMoveLogic = false;
     if (Math.abs(this.row - row) == 2 && Math.abs(this.col - col) == 1) {
