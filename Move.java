@@ -11,6 +11,11 @@ public class Move extends ClickableImage {
   public void onClick() {
     ChessBoard.clearPossibleMoves();
     try {
+      Piece there = ChessBoard.getPieceAt(this.row, this.col);
+      if (there != null) {
+        System.out.println("killing");
+        there.kill();
+      }
       ChessBoard.movePiece(this.row, this.col);
       GameControl.switchTurn();
     } catch (Exception e) {
