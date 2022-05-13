@@ -7,7 +7,7 @@ public class GameControl {
   private static String currentTurn;
 
   public static void start () throws FileNotFoundException, PlaygroundException {
-    currentTurn = "Black";
+    currentTurn = "White";
     board = new ChessBoard();
   }
  
