@@ -28,6 +28,12 @@ public class Piece {
   public int getCol() {
     return this.col;
   }
+  public void setRow(int r) {
+    this.row = r;
+  }
+  public void setCol(int c) {
+    this.col = c;
+  }
   public String getColor() {
     return this.color;
   }
@@ -120,7 +126,7 @@ public class Piece {
     return false;
   }
   private boolean kingCanMove (int row, int col) {
-    if (Math.abs(this.row - row) <= 1 && Math.abs(this.col - col) <= 1) {
+    if (Math.abs(this.row - row) <= 1 && Math.abs(this.col - col) <= 1 && CheckLogic.kingWillBeInCheck(color, row, col)) {
       return ChessBoard.free(row, col, this.color);
     }
     return false;
@@ -132,19 +138,21 @@ public class Piece {
     return false;
   }
   public boolean canMove (int row, int col) {
+    boolean pieceCanMove;
     if (this.type.equals("King")) {
-      return kingCanMove(row, col);
+      pieceCanMove = kingCanMove(row, col);
     } else if (this.type.equals("Queen")) {
-      return queenCanMove(row, col);
+      pieceCanMove = queenCanMove(row, col);
     } else if (this.type.equals("Bishop")) {
-      return bishopCanMove(row, col);
+      pieceCanMove = bishopCanMove(row, col);
     } else if (this.type.equals("Rook")) {
-      return rookCanMove(row, col);
+      pieceCanMove = rookCanMove(row, col);
     } else if (this.type.equals("Knight")) {
-      return knightCanMove(row, col);
+      pieceCanMove = knightCanMove(row, col);
     } else {
-      return pawnCanMove(row, col);
+      pieceCanMove = pawnCanMove(row, col);
     }
+    return pieceCanMove && CheckLogic.pieceCanMoveAway(this, this.color, this.row, this.col);
   }
 
   public void move(int row, int col) throws FileNotFoundException {
