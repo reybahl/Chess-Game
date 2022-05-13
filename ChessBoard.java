@@ -98,7 +98,7 @@ public class ChessBoard {
     myChessBoard.setBackgroundImage("Chessboard.png");
     for (Piece[] arr : pieces) {
       for (Piece piece : arr) {
-        if (piece != null) {
+        if (piece != null && piece.isAlive()) {
           myChessBoard.addClickableImage(piece.getButton());
         }
       }
