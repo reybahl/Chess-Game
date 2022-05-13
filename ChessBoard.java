@@ -35,6 +35,10 @@ public class ChessBoard {
     clickedPiece = piece;
   }
 
+  public static Piece getClicked() {
+    return clickedPiece;
+  }
+
   public static void movePiece (int row, int col) throws FileNotFoundException {
     clickedPiece.move(row, col);
     showPlayableBoard();
@@ -89,8 +93,8 @@ public class ChessBoard {
       }
     }
   }
-  public static void removeImg (Piece piece) {
-    System.out.println("removing" + piece);
+  public static void removePiece (Piece piece, Piece killedBy) {
+    setPieceAt(piece.getRow(), piece.getCol(), killedBy);
     myChessBoard.removeClickableImage(piece.getButton());
   }
   
