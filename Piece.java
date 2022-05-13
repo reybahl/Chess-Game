@@ -105,6 +105,9 @@ public class Piece {
     if (this.row + add == row && ChessBoard.empty(row, col) && col == this.col)
         return true;
 
+    if (this.row + add*2 == row && this.col == col && (this.row == 1 || this.row == 6))
+        return true;
+      
     else if (this.row + add == row && (this.col+1 == col || this.col-1 == col)) {
         return !ChessBoard.empty(row, col) && !(ChessBoard.getPieceAt(row, col).getColor().equals(this.color));
     }
