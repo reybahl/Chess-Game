@@ -43,11 +43,10 @@ public class Piece {
   public boolean isAlive () {
     return !this.taken;
   }
-  public void kill() {
+  public void kill(Piece killedBy) {
     this.taken = true;
     try {
-      System.out.println("removing" + this);
-      ChessBoard.removeImg(this);
+      ChessBoard.removePiece(this, killedBy);
     } catch (Exception e) {
       System.out.println(e);
     }
