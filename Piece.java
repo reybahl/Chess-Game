@@ -43,6 +43,12 @@ public class Piece {
   public boolean isAlive () {
     return !this.taken;
   }
+  
+  public void setType(String type) throws FileNotFoundException {
+    this.type = type;
+    this.button.setFilename(this.color + "-" +  type + ".png");
+  }
+  
   public void kill(Piece killedBy) {
     this.taken = true;
     try {
@@ -105,7 +111,7 @@ public class Piece {
     if (this.row + add == row && ChessBoard.empty(row, col) && col == this.col)
         return true;
 
-    if (this.row + add*2 == row && this.col == col && (this.row == 1 || this.row == 6))
+    if (this.row + add*2 == row && this.col == col && (this.row == 1 || this.row == 6) && ChessBoard.empty(row, col))
         return true;
       
     else if (this.row + add == row && (this.col+1 == col || this.col-1 == col)) {
