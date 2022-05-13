@@ -20,6 +20,9 @@ public class ChessBoard {
     showPlayableBoard();
     myChessBoard.start();
   }
+  public static Piece[][] getPiecesArray() {
+    return pieces;
+  }
   public static Piece getPieceAt(int row, int col) {
     for (int i = 0; i < 2; i++) {
       for (int j = 0; j < 16; j++) {        
