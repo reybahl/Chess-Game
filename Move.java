@@ -16,6 +16,11 @@ public class Move extends ClickableImage {
         there.kill(ChessBoard.getClicked());
       }
       ChessBoard.movePiece(this.row, this.col);
+      Piece current = ChessBoard.getClicked();
+      if (current.getType().equals("Pawn") && (this.row == 0 || this.row == 7)) {
+        current.setType("Queen");
+      }
+      
       GameControl.switchTurn();
     } catch (Exception e) {
       System.out.println(e);
