@@ -13,19 +13,16 @@ public class Move extends ClickableImage {
     try {
       Piece there = ChessBoard.getPieceAt(this.row, this.col);
       if (there != null) {
-        there.kill(ChessBoard.getClicked());
+        there.kill(ChessBoard.getPiecesArray(), ChessBoard.getClicked());
       }
-      ChessBoard.movePiece(this.row, this.col);
+      ChessBoard.movePiece(ChessBoard.getPiecesArray(), this.row, this.col, null);
       Piece current = ChessBoard.getClicked();
       if (current.getType().equals("Pawn") && (this.row == 0 || this.row == 7)) {
         current.setType("Queen");
       }
-      
       GameControl.switchTurn();
     } catch (Exception e) {
       System.out.println(e);
     }
-    
-    //Set new location for piece, process taking if applicable, move taken pieces to takenPieces array, progress turn;
   }
 }
