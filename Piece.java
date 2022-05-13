@@ -6,10 +6,9 @@ public class Piece {
   private int row;
   private int col;
   private PieceButton button;
-  private int xPos; // in pixel coordinates
+  private int xPos;
   private int yPos;
   private boolean taken;
-  
   public Piece (String type, String color, int r, int c) throws FileNotFoundException {
     this.row = r;
     this.col = c;
@@ -49,21 +48,18 @@ public class Piece {
   public boolean isAlive () {
     return !this.taken;
   }
-  
   public void setType(String type) throws FileNotFoundException {
     this.type = type;
     this.button.setFilename(this.color + "-" +  type + ".png");
   }
-  
-  public void kill(Piece killedBy) {
+  public void kill(Piece[][] pieces1, Piece killedBy) {
     this.taken = true;
     try {
-      ChessBoard.removePiece(this, killedBy);
+      ChessBoard.removePiece(pieces1, this, killedBy);
     } catch (Exception e) {
       System.out.println(e);
     }
   }
-  
   private boolean knightCanMove (int row, int col) {
     boolean canMoveLogic = false;
     if (Math.abs(this.row - row) == 2 && Math.abs(this.col - col) == 1) {
@@ -113,21 +109,18 @@ public class Piece {
   private boolean pawnCanMove (int row, int col) {
     int add = -1;
     if (this.color.equals("White")) add = 1;
-    
     if (this.row + add == row && ChessBoard.empty(row, col) && col == this.col)
         return true;
-
     if (this.row + add*2 == row && this.col == col && (this.row == 1 || this.row == 6) && ChessBoard.empty(row, col))
         return true;
-      
     else if (this.row + add == row && (this.col+1 == col || this.col-1 == col)) {
         return !ChessBoard.empty(row, col) && !(ChessBoard.getPieceAt(row, col).getColor().equals(this.color));
     }
     return false;
   }
-  private boolean kingCanMove (int row, int col) {
-    if (Math.abs(this.row - row) <= 1 && Math.abs(this.col - col) <= 1 && CheckLogic.kingWillBeInCheck(color, row, col)) {
-      return ChessBoard.free(row, col, this.color);
+  private boolean kingCanMove (int r, int c) {
+    if (Math.abs(this.row - r) <= 1 && Math.abs(this.col - c) <= 1 && !CheckLogic.squareUnderAttack(this.color, r, c)) {
+      return ChessBoard.free(r, c, this.color);
     }
     return false;
   }
@@ -137,31 +130,35 @@ public class Piece {
     }
     return false;
   }
-  public boolean canMove (int row, int col) {
-    boolean pieceCanMove;
+  public boolean canMove (int r, int c) {
     if (this.type.equals("King")) {
-      pieceCanMove = kingCanMove(row, col);
+      return kingCanMove(r, c);
     } else if (this.type.equals("Queen")) {
-      pieceCanMove = queenCanMove(row, col);
+      return queenCanMove(r, c);
     } else if (this.type.equals("Bishop")) {
-      pieceCanMove = bishopCanMove(row, col);
+      return bishopCanMove(r, c);
     } else if (this.type.equals("Rook")) {
-      pieceCanMove = rookCanMove(row, col);
+      return rookCanMove(r, c);
     } else if (this.type.equals("Knight")) {
-      pieceCanMove = knightCanMove(row, col);
+      return knightCanMove(r, c);
     } else {
-      pieceCanMove = pawnCanMove(row, col);
+      return pawnCanMove(r, c);
     }
-    return pieceCanMove && CheckLogic.pieceCanMoveAway(this, this.color, this.row, this.col);
   }
-
-  public void move(int row, int col) throws FileNotFoundException {
-    this.xPos = col*50;
-    this.yPos = row*50;
-    
-    this.row = row;
-    this.col = col;
-    this.button.setLocation(this.xPos, this.yPos, this.row, this.col);
-    ChessBoard.showPlayableBoard();
+  public boolean validMove (int r, int c) {
+    return canMove(r, c) && CheckLogic.noCheck(this, this.color, r, c);
+  }
+  public void move(Piece[][] pieces1, int r, int c) throws FileNotFoundException {
+    if (pieces1 == ChessBoard.getPiecesArray()) {
+      this.xPos = c*50;
+      this.yPos = r*50;
+      this.row = r;
+      this.col = c;
+      this.button.setLocation(this.xPos, this.yPos, this.row, this.col);
+      ChessBoard.showPlayableBoard();
+    } else {
+      CheckLogic.getPieceAt(this.row, this.col).setRow(r);
+      CheckLogic.getPieceAt(this.row, this.col).setCol(c);
+    }
   }
 }
