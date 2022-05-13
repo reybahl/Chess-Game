@@ -13,8 +13,7 @@ public class Move extends ClickableImage {
     try {
       Piece there = ChessBoard.getPieceAt(this.row, this.col);
       if (there != null) {
-        System.out.println("killing");
-        there.kill();
+        there.kill(ChessBoard.getClicked());
       }
       ChessBoard.movePiece(this.row, this.col);
       GameControl.switchTurn();
