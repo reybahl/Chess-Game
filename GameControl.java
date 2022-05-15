@@ -14,7 +14,7 @@ public class GameControl {
   public static void switchTurn() {
     currentTurn = (currentTurn.equals("White") ? "Black" : "White");
   }
-  public static void checkForWin() {
+  public static void checkForEnd() {
     ChessBoard.setPlayerHasMove(false);
     try {
       for (Piece thisPiece : ChessBoard.getPiecesArray()[currentTurn.equals("White") ? 0 : 1]) {
@@ -54,7 +54,7 @@ public class GameControl {
         System.out.println("Draw!");
         ChessBoard.showTransparentOverlay();
       } catch (Exception e) {
-        System.out.println("Exception in method checkForWin() draw check: " + e);
+        System.out.println("Exception in method checkForEnd() draw check: " + e);
       }
     }
   }
