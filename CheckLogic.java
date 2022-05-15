@@ -38,7 +38,6 @@ public class CheckLogic {
   public static boolean dangerResolved (Piece piece, int row, int col) {
     try {
       copyPiecesArray();
-      getPiecesArray();
       if (CheckLogic.getPieceAt(row, col) != null) {
         CheckLogic.getPieceAt(row, col).kill(CheckLogic.getPieceAt(piece.getRow(), piece.getCol()));
       } else {
