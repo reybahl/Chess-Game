@@ -11,18 +11,17 @@ public class Move extends ClickableImage {
   public void onClick() {
     ChessBoard.clearPossibleMoves();
     try {
-      Piece there = ChessBoard.getPieceAt(this.row, this.col);
-      if (there != null) {
-        there.kill(ChessBoard.getPiecesArray(), ChessBoard.getClicked());
+      if (ChessBoard.getPieceAt(this.row, this.col) != null) {
+        ChessBoard.getPieceAt(this.row, this.col).kill(ChessBoard.getClicked());
       }
-      ChessBoard.movePiece(ChessBoard.getPiecesArray(), this.row, this.col, null);
-      Piece current = ChessBoard.getClicked();
-      if (current.getType().equals("Pawn") && (this.row == 0 || this.row == 7)) {
-        current.setType("Queen");
+      ChessBoard.movePiece(this.row, this.col, null);
+      if (ChessBoard.getClicked().getType().equals("Pawn") && (this.row == 0 || this.row == 7)) {
+        ChessBoard.getClicked().setType("Queen");
       }
       GameControl.switchTurn();
+      GameControl.checkForWin();
     } catch (Exception e) {
-      System.out.println(e);
+      System.out.println("Exception in method onClick() of Move " + e);
     }
   }
 }
