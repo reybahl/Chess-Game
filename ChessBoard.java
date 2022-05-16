@@ -49,7 +49,7 @@ public class ChessBoard {
     return isEmpty(row, col) || !getPieceAt(row, col).getColor().equals(color);
   }
   public static void movePiece (int row, int col, Piece thisPiece) throws FileNotFoundException {
-    clickedPiece.move(row, col);
+    clickedPiece.move(row, col, true);
     showPlayableBoard();
   }
   public static void removePiece (Piece piece, Piece killedBy) {
