@@ -7,11 +7,14 @@ public class Piece {
   private PieceButton button;
   private int xPos;
   private int yPos;
+  private int timesMoved;
+  
   public Piece (String type, String color, int r, int c) throws FileNotFoundException {
     this.row = r;
     this.col = c;
     this.color = color;
     this.type = type;
+    this.timesMoved = 0;
     if (type != null) {
       String filename = color + "-" +  type + ".png";
       this.xPos = c*50;
@@ -33,6 +36,9 @@ public class Piece {
   }
   public PieceButton getButton() {
     return this.button;
+  }
+  public int getTimesMoved () {
+    return this.timesMoved;
   }
   public void setRow (int r) {
     this.row = r;
@@ -57,6 +63,15 @@ public class Piece {
     }
   }
   public boolean kingCanMove (boolean real, int r, int c) {
+    if (this.timesMoved == 0 && this.row == r && Math.abs(this.col - c) == 2) {
+      
+      if (this.col > c && (real ? ChessBoard.isEmpty(r, this.col-1) : CheckLogic.isEmpty(r, this.col-1)) && (real ? ChessBoard.isEmpty(r, this.col-2) : CheckLogic.isEmpty(r, this.col-2)) && (real ? (CheckLogic.dangerResolved(this, r, this.col-1) && CheckLogic.dangerResolved(this, r, this.col-2)) : true)) {
+        return (real ? ChessBoard.getPieceAt(r, 0).getTimesMoved() == 0 : CheckLogic.getPieceAt(r, 0).getTimesMoved() == 0);
+      } else if (this.col < c && ChessBoard.isEmpty(r, this.col+1) && ChessBoard.isEmpty(r, this.col+2) && CheckLogic.dangerResolved(this, r, this.col+1) && CheckLogic.dangerResolved(this, r, this.col+2)) {
+        return ChessBoard.getPieceAt(r, 7).getTimesMoved() == 0;
+      }
+      return false;
+    }
     return (real ? (Math.abs(this.row - r) <= 1 && Math.abs(this.col - c) <= 1 && ChessBoard.isFree(r, c, this.color)) : (Math.abs(this.row - r) <= 1 && Math.abs(this.col - c) <= 1 && CheckLogic.isFree(r, c, this.color)));
   }
   private boolean queenCanMove (boolean real, int row, int col) {
@@ -126,10 +141,20 @@ public class Piece {
   public boolean validMove (int r, int c) {
     return canMove(true, r, c) && CheckLogic.dangerResolved(this, r, c);
   }
-  public void move(int r, int c) throws FileNotFoundException {
+  public void move(int r, int c, boolean real) throws FileNotFoundException {
+    if (this.type.equals("King") && Math.abs(this.col - c) == 2) {
+      Piece rook = ChessBoard.getPieceAt(r, this.col > c ? 0 : 7);
+      if (real) {
+        rook.move(r, this.col > c ? 3 : 5, true);
+      }
+    }
+    
+    this.timesMoved++;
+    
     this.row = r;
     this.col = c;
-    if (this.button != null) {
+    
+    if (real && this.button != null) {
       this.xPos = c*50;
       this.yPos = r*50;
       this.button.setLocation(this.xPos, this.yPos, this.row, this.col);
