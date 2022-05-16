@@ -19,7 +19,7 @@ public class Move extends ClickableImage {
         ChessBoard.getClicked().setType("Queen");
       }
       GameControl.switchTurn();
-      GameControl.checkForWin();
+      GameControl.checkForEnd();
     } catch (Exception e) {
       System.out.println("Exception in method onClick() of Move " + e);
     }
