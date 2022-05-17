@@ -96,7 +96,17 @@ public class ChessBoard {
       }
     }
   }
-  public static void showTransparentOverlay() throws FileNotFoundException {
+  public static void showOverlay (String winner) throws FileNotFoundException {
+    switch (winner) {
+      case "White": myChessBoard.addImageItem(new ImageItem("White-King.png", 0, 0, myChessBoard.getWidth(), myChessBoard.getHeight()));
+        break;
+      case "Black": myChessBoard.addImageItem(new ImageItem("Black-King.png", 0, 0, myChessBoard.getWidth(), myChessBoard.getHeight()));
+        break;
+      case "Draw": {
+        myChessBoard.addImageItem(new ImageItem("White-King.png", 0, 0, myChessBoard.getWidth() / 2, myChessBoard.getHeight() / 2));
+        myChessBoard.addImageItem(new ImageItem("Black-King.png", myChessBoard.getWidth() / 2, myChessBoard.getHeight() / 2, myChessBoard.getWidth() / 2, myChessBoard.getHeight() / 2));
+      }
+    }
     myChessBoard.addImageItem(new ImageItem("Transparent.png", 0, 0, myChessBoard.getWidth(), myChessBoard.getHeight()));
   }
 }
