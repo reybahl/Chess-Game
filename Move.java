@@ -4,7 +4,7 @@ public class Move extends ClickableImage {
   private int row;
   private int col;
   public Move (int row, int col) throws FileNotFoundException{
-    super("Highlight.png", col * 50, row * 50, 50, 50);
+    super("Highlight.png", 10 + col * 50, 10 + row * 50, 30, 30);
     this.row = row;
     this.col = col;
   }
