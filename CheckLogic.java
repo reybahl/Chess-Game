@@ -41,7 +41,7 @@ public class CheckLogic {
       if (CheckLogic.getPieceAt(row, col) != null) {
         CheckLogic.getPieceAt(row, col).kill(CheckLogic.getPieceAt(piece.getRow(), piece.getCol()));
       } else {
-        CheckLogic.getPieceAt(piece.getRow(), piece.getCol()).move(row, col);
+        CheckLogic.getPieceAt(piece.getRow(), piece.getCol()).move(false, row, col);
       }
       return !inCheck(piecesCopy, piece.getColor());
     } catch (Exception e) {
