@@ -22,13 +22,14 @@ public class GameControl {
       }
       if (CheckLogic.inCheck(ChessBoard.getPiecesArray(), currentTurn) && !ChessBoard.getPlayerHasMove()) {
         System.out.println("Checkmate! " + (currentTurn == "White" ? "Black" : "White") + " wins!");
-        ChessBoard.showTransparentOverlay();
+        ChessBoard.showOverlay(currentTurn == "White" ? "Black" : "White");
+        ChessBoard.myChessBoard.end("win.wav");
       } else if (!ChessBoard.getPlayerHasMove()) {
         System.out.println("Stalemate!");
-        ChessBoard.showTransparentOverlay();
+        ChessBoard.showOverlay("Black");
       }
     } catch (Exception e) {
-        System.out.println("Exception in method checkForWin() checkmate / stalemate check: " + e);
+        System.out.println("Exception in method checkForEnd() checkmate / stalemate check: " + e);;
     }
     boolean draw = true;
     int bishopCount = 0;
@@ -52,7 +53,8 @@ public class GameControl {
     if (draw) {
       try {
         System.out.println("Draw!");
-        ChessBoard.showTransparentOverlay();
+        ChessBoard.showOverlay("Draw");
+        ChessBoard.myChessBoard.playSound("move_sound.wav");
       } catch (Exception e) {
         System.out.println("Exception in method checkForEnd() draw check: " + e);
       }
