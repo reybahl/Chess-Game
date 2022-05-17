@@ -48,7 +48,7 @@ public class ChessBoard {
   public static boolean isFree (int row, int col, String color) {
     return isEmpty(row, col) || !getPieceAt(row, col).getColor().equals(color);
   }
-  public static void movePiece (int row, int col, Piece thisPiece) throws FileNotFoundException {
+  public static void moveClickedPiece (int row, int col) throws FileNotFoundException {
     clickedPiece.move(true, row, col);
     showPlayableBoard();
   }
