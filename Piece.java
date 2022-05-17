@@ -51,6 +51,11 @@ public class Piece {
       this.button.setFilename(this.color + "-" +  type + ".png");
     }
   }
+  public void setImage (String filename) throws FileNotFoundException {
+    if (this.button != null) {
+      this.button.setFilename(this.color + "-" + type + ".png");
+    }
+  }
   public void kill (Piece killedBy) throws FileNotFoundException {
     this.type = null;
     killedBy.setRow(this.row);
