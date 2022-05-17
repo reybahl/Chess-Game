@@ -53,7 +53,7 @@ public class Piece {
   }
   public void setImage (String filename) throws FileNotFoundException {
     if (this.button != null) {
-      this.button.setFilename(this.color + "-" + type + ".png");
+      this.button.setFilename(filename);
     }
   }
   public void kill (Piece killedBy) throws FileNotFoundException {
