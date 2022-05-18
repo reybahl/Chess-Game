@@ -26,8 +26,8 @@ public class GameControl {
         ChessBoard.myChessBoard.end("win.wav");
       } else if (!ChessBoard.getPlayerHasMove()) {
         System.out.println("Stalemate!");
-        ChessBoard.showOverlay("Black");
-        ChessBoard.myChessBoard.end("move_sound.wav");
+        ChessBoard.showOverlay("Draw");
+        ChessBoard.myChessBoard.end();
       }
     } catch (Exception e) {
         System.out.println("Exception in method checkForEnd() checkmate / stalemate check: " + e);;
@@ -55,7 +55,8 @@ public class GameControl {
       try {
         System.out.println("Draw!");
         ChessBoard.showOverlay("Draw");
-        ChessBoard.myChessBoard.end("move_sound.wav");
+        ChessBoard.myChessBoard.playSound("move_sound.wav");
+        ChessBoard.myChessBoard.end();
       } catch (Exception e) {
         System.out.println("Exception in method checkForEnd() draw check: " + e);
       }
